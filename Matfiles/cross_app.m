@@ -1,4 +1,9 @@
 function [U,V]=cross_app(A,tol)
+%   This function computes the low rank approximaiton using the cross
+%   approximation technique.
+%   A -  size mxn 
+%   U,V' - size mxr 
+%   tol - default to pow(10,-10)
 error =1;
 iter=1;
 M=A;
@@ -14,6 +19,7 @@ a=A(:,js)/del;
 U(:,iter)=a;
 b=A(is,:);
 V(iter,:)=b;
+% The following three lines is what makes the algorithm scale as O(rmn)
 M=M-a*b;
 A=A-a*b
 error=norm(M);
@@ -23,6 +29,7 @@ if iter>8
 end
 end
 end
+% Routine that seeks the index of the maximum element in the matrix
 function [ a,b ] = maxmat( c )
 as=size(c);
 total_ele=numel(c);
